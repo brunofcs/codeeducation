@@ -2,4 +2,5 @@ steps:
 
 - id: "Rodando Testes"
   name: 'gcr.io/cloud-builders/go'
+  env: ['PROJECT_ROOT=./ex3']
   args: ['test', './ex3/src/', '-v']
