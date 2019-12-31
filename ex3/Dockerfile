@@ -7,4 +7,6 @@ FROM scratch
 
 COPY --from=builder /main /main
 
+EXPOSE 8000
+
 ENTRYPOINT ["/main"]
