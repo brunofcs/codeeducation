@@ -2,4 +2,4 @@ steps:
 
 - id: "Rodando Testes"
   name: 'gcr.io/cloud-builders/go'
-  args: ['test', './src/', '-v']
+  args: ['test', './ex3/src/', '-v']
