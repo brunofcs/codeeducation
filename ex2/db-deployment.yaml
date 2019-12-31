@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ex2-db-deployment
+  labels:
+    app: ex2-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ex2-db
+  template:
+    metadata:
+      labels:
+        app: ex2-db
+    spec:
+      volumes:
+      - name: ex2-db-volume-persistente
+        persistentVolumeClaim:
+          claimName: ex2-db-pvolume
+
+      containers:
+
+      - name: db
+        image: mysql:5.6
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: mysqlrootpass
+
+        volumeMounts:
+        - name: ex2-db-volume-persistente
+          mountPath: /var/lib/mysql
+          subPath: mysqldata
+
+        ports:
+        - containerPort: 3306
+
+
+
+

@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ex1-kubernetes-deployment
+  labels:
+    app: nginx-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx-app
+  template:
+    metadata:
+      labels:
+        app: nginx-app
+    spec:
+      volumes:
+      - name: deploy-volumes-nginx-conf
+        configMap:
+          name: nginx-conf
+          items:
+            - key: nginx.conf
+              path: default.conf
+      - name: deploy-volumes-nginx-html
+        configMap:
+          name: nginx-conf
+          items:
+            - key: index.html
+              path: index.html
+
+      containers:
+
+      - name: nginx
+        image: nginx:1.17-alpine
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: deploy-volumes-nginx-conf
+          mountPath: /etc/nginx/conf.d
+        - name: deploy-volumes-nginx-html
+          mountPath: /var/www/html
